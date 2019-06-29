@@ -1,0 +1,57 @@
+---
+- name: "Set some os-specific facts"
+  include: "{{ ansible_os_family }}.yml"
+  tags:
+    - always
+
+- name: Precipitate {{ drupal_log_path }}
+  copy:
+    dest: "{{ drupal_log_path }}"
+    content: ""
+    force: no
+    owner: "{{ syslog_owner }}"
+    group: "{{ syslog_group }}"
+    mode: 0640
+  notify: ards restart rsyslog
+
+- name: Configure rsyslog for {{ drupal_log_path }}
+  template:
+    src: templates/etc/rsyslog.d/45-drupal.conf.j2
+    dest: "{{ drupal_syslog_conf_path }}"
+    owner: root
+    group: root
+    mode: 0644
+    backup: yes
+  notify: ards restart rsyslog
+
+- name: Configure logrotate for {{ drupal_log_path }}
+  template:
+    src: ../templates/etc/logrotate.d/drupal-syslog.j2
+    dest: "{{ drupal_syslog_logrotate_conf_path }}"
+    backup: false
+    mode: 0644
+    owner: root
+    group: root
+  notify: ards restart rsyslog
+
+# Permissions shouldn't ever need to be re-added to this, since the log file gets copytruncate'd
+- name: Give additional ACL permissions on {{ drupal_log_path }} to users specified by drupal_syslog_read_users
+  acl:
+    path: "{{ drupal_log_path }}"
+    entity: "{{ item }}"
+    etype: user
+    permissions: r
+    state: present
+  with_items: "{{ drupal_syslog_read_users }}"
+#  when: drupal_syslog_read_users|length > 0
+
+# Permissions shouldn't ever need to be re-added to this, since the log file gets copytruncate'd
+- name: Give additional ACL permissions on {{ drupal_log_path }} to groups specified by drupal_syslog_read_groups
+  acl:
+    path: "{{ drupal_log_path }}"
+    entity: "{{ item }}"
+    etype: group
+    permissions: r
+    state: present
+  with_items: "{{ drupal_syslog_read_groups }}"
+#  when: drupal_syslog_read_groups|length > 0

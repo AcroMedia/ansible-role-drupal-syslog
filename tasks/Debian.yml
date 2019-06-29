@@ -1,0 +1,9 @@
+---
+- set_fact:
+    syslog_owner: syslog
+    syslog_group: adm
+
+- set_fact:
+    syslog_stop_command: 'stop'
+  when: ansible_distribution == 'Ubuntu'
+    and ansible_distribution_major_version|int >= 16

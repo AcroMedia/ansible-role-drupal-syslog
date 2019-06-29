@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+{{ drupal_log_path }} {
+  missingok
+  rotate {{ drupal_log_keep_for_x_days }}
+  daily
+  compress
+  delaycompress
+  copytruncate
+}

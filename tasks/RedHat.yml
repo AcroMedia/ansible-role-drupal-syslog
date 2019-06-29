@@ -1,0 +1,4 @@
+---
+- set_fact:
+    syslog_owner: root
+    syslog_group: wheel

@@ -1,0 +1,8 @@
+---
+syslog_facility: local0
+drupal_syslog_conf_path: "/etc/rsyslog.d/45-drupal.conf"
+drupal_syslog_logrotate_conf_path: "/etc/logrotate.d/drupal-syslog"
+drupal_syslog_read_users: []
+drupal_syslog_read_groups: []
+syslog_stop_command: '~'
+drupal_log_keep_for_x_days: 7
