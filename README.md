@@ -9,8 +9,7 @@ When using the Drupal Syslog module, redirect logging to a specific file, instea
 - Ansible >= 2.5 on your workstation
 - Rsyslog installed on your server (it's usually there by default on most Ubuntu and Red Hat / CentOS boxes)
 - You must `gather_facts: true` in your playbook
-- The values for `syslog_identity` and `syslog_facility` in your drupal site's syslog settings must match what you've configured for this role
-- The value for `drupal_syslog_identity` cannot exceed 31 characters
+- The value for `syslog_facility` in your drupal site's syslog settings must match what you've configured for this role
 
 
 ## Role Variables
