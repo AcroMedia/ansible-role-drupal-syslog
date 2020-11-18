@@ -1,0 +1,19 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    drupal_log_path: /var/log/vhosts/account/project/drupal.log
+    drupal_syslog_read_users:
+      - johndoe
+  pre_tasks:
+    - name: Add system users
+      user:
+        name: "johndoe"
+        state: "present"
+        groups: "sudo"
+        append: yes
+
+
+  roles:
+    - role: ansible-role-drupal-syslog
