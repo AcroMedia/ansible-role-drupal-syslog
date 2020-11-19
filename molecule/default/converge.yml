@@ -7,6 +7,14 @@
     drupal_syslog_read_users:
       - johndoe
   pre_tasks:
+    - name: Creates directory
+      file:
+        path: /var/log/vhosts/account/project
+        state: directory
+    - name: Ansible create file if it doesn't exist example
+      file:
+        path: "/var/log/vhosts/account/project/drupal.log"
+        state: touch
     - name: Add system users
       user:
         name: "johndoe"
