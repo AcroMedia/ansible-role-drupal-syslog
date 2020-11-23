@@ -7,14 +7,21 @@
     drupal_syslog_read_users:
       - johndoe
   pre_tasks:
+
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      changed_when: false
+
     - name: Creates directory
       file:
         path: /var/log/vhosts/account/project
         state: directory
+
     - name: Ansible create file if it doesn't exist example
       file:
         path: "/var/log/vhosts/account/project/drupal.log"
         state: touch
+
     - name: Add system users
       user:
         name: "johndoe"
