@@ -1,5 +1,7 @@
 # Ansible Role: acromedia.drupal-syslog
 
+![.github/workflows/molecule.yml](https://github.com/AcroMedia/ansible-role-drupal-syslog/workflows/.github/workflows/molecule.yml/badge.svg)
+
 When using the Drupal Syslog module, redirect logging to a specific file, instead of having drupal write to the system's generic /var/log/(messages|syslog), which can become swamped very quickly by Drupal's watchdog activity.
 
 
