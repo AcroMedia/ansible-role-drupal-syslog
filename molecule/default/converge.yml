@@ -23,5 +23,20 @@
         path: "/var/log/vhosts/account/project/drupal.log"
         state: touch
 
+    - name: Add system users for Debian
+      user:
+        name: "johndoe"
+        state: "present"
+        groups: "sudo"
+        append: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Add system users
+      user:
+        name: "johndoe"
+        state: "present"
+        groups: "wheel"
+        append: yes
+      when: ansible_os_family == 'Redhat'
   roles:
     - role: ansible-role-drupal-syslog
