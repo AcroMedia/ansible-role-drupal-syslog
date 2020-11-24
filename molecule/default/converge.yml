@@ -11,24 +11,17 @@
     - name: Update apt cache.
       apt: update_cache=true cache_valid_time=600
       changed_when: false
+      when: ansible_os_family == 'Debian'
 
     - name: Creates directory
       file:
         path: /var/log/vhosts/account/project
         state: directory
 
-    - name: Ansible create file if it doesn't exist example
+    - name: Ansible create file if it doesn't exist
       file:
         path: "/var/log/vhosts/account/project/drupal.log"
         state: touch
-
-    - name: Add system users
-      user:
-        name: "johndoe"
-        state: "present"
-        groups: "sudo"
-        append: yes
-
 
   roles:
     - role: ansible-role-drupal-syslog
