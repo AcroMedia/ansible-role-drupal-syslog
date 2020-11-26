@@ -16,3 +16,10 @@
 
     - debug: var=acl_info
 
+    - name: Write a line to syslog local0
+      command: >
+        logger --priority local0.info "foo is a bar"
+
+    - name: Make sure our line got logged
+      command:
+        grep -w "foo is a bar" /var/log/vhosts/account/project/drupal.log
