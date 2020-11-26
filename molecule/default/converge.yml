@@ -28,12 +28,6 @@
     - stat: path=/var/log/vhosts/account/project/drupal.log
       register: dlog
 
-    - name: Ansible create file if it doesn't exist
-      file:
-        path: "/var/log/vhosts/account/project/drupal.log"
-        state: touch
-      when: dlog.stat.exists is defined and not dlog.stat.exists
-
     - name: Add system users for Debian
       user:
         name: "johndoe"
