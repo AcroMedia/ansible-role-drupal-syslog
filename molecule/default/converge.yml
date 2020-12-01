@@ -1,0 +1,58 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+
+  vars:
+    drupal_log_path: /var/log/vhosts/account/project/drupal.log
+    drupal_syslog_read_users:
+      - johndoe
+
+  pre_tasks:
+
+    - name: Update apt cache.
+      apt: update_cache=true cache_valid_time=600
+      changed_when: false
+      when: ansible_os_family == 'Debian'
+
+    - name: Creates directory
+      file:
+        path: /var/log/vhosts/account/project
+        state: directory
+
+    - name: Creates directory
+      file:
+        path: /etc/rsyslog.d
+        state: directory
+
+    - stat: path=/var/log/vhosts/account/project/drupal.log
+      register: dlog
+
+    - name: Add system users for Debian
+      user:
+        name: "johndoe"
+        state: "present"
+        groups: "sudo"
+        append: yes
+      when: ansible_os_family == 'Debian'
+
+    - name: Add system users for RedHat
+      user:
+        name: "johndoe"
+        state: "present"
+        groups: "wheel"
+        append: yes
+      when: ansible_os_family == 'RedHat'
+
+    - name: Install rsyslog
+      package:
+          name: rsyslog
+          state: latest
+
+    - name: Install acl
+      package:
+        name: acl
+        state: latest
+
+  roles:
+    - role: ansible-role-drupal-syslog

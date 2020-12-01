@@ -33,7 +33,6 @@
     owner: root
     group: root
   notify: ards restart rsyslog
-
 # Permissions shouldn't ever need to be re-added to this, since the log file gets copytruncate'd
 - name: Give additional ACL permissions on {{ drupal_log_path }} to users specified by drupal_syslog_read_users
   acl:
@@ -43,6 +42,8 @@
     permissions: r
     state: present
   with_items: "{{ drupal_syslog_read_users }}"
+
+
 #  when: drupal_syslog_read_users|length > 0
 
 # Permissions shouldn't ever need to be re-added to this, since the log file gets copytruncate'd

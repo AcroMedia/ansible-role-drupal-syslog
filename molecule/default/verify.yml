@@ -1,0 +1,25 @@
+---
+- name: Verify role
+  hosts: all
+  become: yes
+
+  vars:
+    drupal_log_path: /var/log/vhosts/account/project/drupal.log
+    drupal_syslog_read_users:
+      - johndoe
+
+  tasks:
+    - name: Obtain the ACL for drupal log
+      acl:
+        path: "{{ drupal_log_path }}"
+      register: acl_info
+
+    - debug: var=acl_info
+
+    - name: Write a line to syslog local0
+      command: >
+        logger --priority local0.info "foo is a bar"
+
+    - name: Make sure our line got logged
+      command:
+        grep -w "foo is a bar" /var/log/vhosts/account/project/drupal.log
