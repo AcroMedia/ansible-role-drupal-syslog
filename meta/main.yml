@@ -1,5 +1,7 @@
 galaxy_info:
   author: Dale Anderson
+  role_name: syslog
+  namespace: acromedia
   description: Support logging to a specific file when using the syslog module on a Drupal site
   company: Acro Media Inc.
   license: GPLv3
@@ -7,7 +9,8 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - 16.04
+        - 22.04
+        - 20.04
     - name: EL
         - 6
   galaxy_tags: []
